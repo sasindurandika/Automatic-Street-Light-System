@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automatic Street Light System | Course Project</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Segoe UI', system-ui, sans-serif; }
+    .hero { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Hero Section -->
+  <section class="hero text-white py-24">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h1 class="text-5xl font-bold mb-4">Automatic Street Light System</h1>
+      <p class="text-xl mb-6">Energy-Efficient Lighting Control using Arduino</p>
+      <div class="flex justify-center gap-4 text-sm">
+        <span class="bg-white/20 px-4 py-2 rounded-full">Arduino Uno</span>
+        <span class="bg-white/20 px-4 py-2 rounded-full">LDR Sensor</span>
+        <span class="bg-white/20 px-4 py-2 rounded-full">Embedded Systems</span>
+      </div>
+      <p class="mt-8 text-lg">Course Project • May 2026</p>
+    </div>
+  </section>
+
+  <div class="max-w-5xl mx-auto px-6 py-12">
+
+    <!-- Overview -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3">
+        <i class="fas fa-info-circle text-blue-600"></i> Project Overview
+      </h2>
+      <p class="text-lg text-gray-700 leading-relaxed">
+        This project demonstrates a simple and practical <strong>Automatic Street Light System</strong> that turns ON the light when it is dark and turns OFF during daytime. 
+        It helps in saving electricity and is built using basic components available in the university lab.
+      </p>
+    </section>
+
+    <!-- Key Features -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6">Key Features</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 class="font-semibold text-xl mb-2">🌞 Day/Night Detection</h3>
+          <p class="text-gray-600">Automatically detects ambient light level using LDR sensor.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 class="font-semibold text-xl mb-2">💡 Automatic Control</h3>
+          <p class="text-gray-600">Controls the street light based on real-time light conditions.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 class="font-semibold text-xl mb-2">📊 Real-time Monitoring</h3>
+          <p class="text-gray-600">Displays sensor values through Serial Monitor.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 class="font-semibold text-xl mb-2">🔋 Energy Saving</h3>
+          <p class="text-gray-600">Reduces unnecessary power consumption.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Components -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6">Components Used</h2>
+      <table class="w-full border-collapse bg-white rounded-xl overflow-hidden shadow-sm">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-6 py-4 text-left">Component</th>
+            <th class="px-6 py-4 text-left">Specification</th>
+            <th class="px-6 py-4 text-left">Quantity</th>
+            <th class="px-6 py-4 text-left">Purpose</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y">
+          <tr><td class="px-6 py-4">Arduino Uno R3</td><td class="px-6 py-4">KS0001</td><td class="px-6 py-4">1</td><td class="px-6 py-4">Main Controller</td></tr>
+          <tr><td class="px-6 py-4">Photoresistor (LDR)</td><td class="px-6 py-4">KS0028</td><td class="px-6 py-4">1</td><td class="px-6 py-4">Light Detection</td></tr>
+          <tr><td class="px-6 py-4">LED</td><td class="px-6 py-4">Standard</td><td class="px-6 py-4">1</td><td class="px-6 py-4">Street Light Simulation</td></tr>
+          <tr><td class="px-6 py-4">Resistor</td><td class="px-6 py-4">10kΩ</td><td class="px-6 py-4">1</td><td class="px-6 py-4">Voltage Divider</td></tr>
+          <tr><td class="px-6 py-4">Resistor</td><td class="px-6 py-4">220Ω</td><td class="px-6 py-4">1</td><td class="px-6 py-4">LED Protection</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Circuit -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6">Circuit Diagram</h2>
+      <div class="bg-gray-900 text-green-400 p-8 rounded-2xl font-mono text-sm overflow-auto">
+        <pre>
+5V ─── LDR ─── A0
+             │
+           10kΩ
+             │
+            GND
+
+5V ── 220Ω ── LED(+) ── Pin 13
+GND ───────── LED(-)
+        </pre>
+      </div>
+    </section>
+
+    <!-- Code -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6">Arduino Code</h2>
+      <pre class="bg-gray-900 text-green-400 p-8 rounded-2xl overflow-auto text-sm leading-relaxed"><code>
+// Automatic Street Light System
+const int LDR_PIN = A0;
+const int LED_PIN = 13;
+const int THRESHOLD = 500;
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(9600);
+  Serial.println("Automatic Street Light System Started");
+}
+
+void loop() {
+  int ldrValue = analogRead(LDR_PIN);
+  
+  Serial.print("LDR Value: ");
+  Serial.println(ldrValue);
+
+  if (ldrValue < THRESHOLD) {
+    digitalWrite(LED_PIN, HIGH);   // Night → ON
+    Serial.println("→ NIGHT: Street Light ON");
+  } else {
+    digitalWrite(LED_PIN, LOW);    // Day → OFF
+    Serial.println("→ DAY: Street Light OFF");
+  }
+  delay(500);
+}
+      </code></pre>
+    </section>
+
+    <!-- Results -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6">Results & Conclusion</h2>
+      <div class="bg-white p-8 rounded-2xl shadow-sm">
+        <p class="text-lg leading-relaxed text-gray-700">
+          The system performed successfully during testing. When the LDR was covered (simulating night), the LED turned ON automatically. 
+          When exposed to light, the LED turned OFF. 
+        </p>
+        <div class="mt-6 grid grid-cols-2 gap-6 text-center">
+          <div>
+            <div class="text-4xl font-bold text-green-600">ON</div>
+            <div class="text-sm text-gray-500">At Night</div>
+          </div>
+          <div>
+            <div class="text-4xl font-bold text-red-600">OFF</div>
+            <div class="text-sm text-gray-500">During Day</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center text-gray-500 py-10 border-t">
+      <p>Made with ❤️ for Robotics &amp; Embedded Systems Course</p>
+      <p class="mt-2">GitHub Pages • May 2026</p>
+    </footer>
+  </div>
+</body>
+</html>
